@@ -1,0 +1,96 @@
+{
+    "tracks": [
+        {
+            "name": "kick",
+            "path": "sounds/kick1.wav",
+            "timing": [
+                0,
+                12,
+                18,
+                30,
+                36,
+                42
+            ],
+            "attack": 0.0,
+            "volume": 1.0
+        },
+        {
+            "name": "snare",
+            "path": "sounds/snare.wav",
+            "timing": [
+                12,
+                18,
+                36
+            ],
+            "attack": 0.0,
+            "volume": 1.0
+        },
+        {
+            "name": "hihat",
+            "path": "sounds/hihat_closed.wav",
+            "timing": [
+                0,
+                6,
+                9,
+                12,
+                18,
+                21,
+                24,
+                30,
+                36,
+                39,
+                42,
+                45
+            ],
+            "attack": 0.0,
+            "volume": 1.0
+        },
+        {
+            "name": "bell",
+            "path": "sounds/cowbell1.wav",
+            "timing": [
+                0,
+                9,
+                18,
+                27,
+                36
+            ],
+            "attack": 0.0,
+            "volume": 1.0
+        },
+        {
+            "name": "Track 5",
+            "path": null,
+            "timing": [],
+            "attack": 0.0,
+            "volume": 1.0
+        },
+        {
+            "name": "Track 6",
+            "path": null,
+            "timing": [],
+            "attack": 0.0,
+            "volume": 1.0
+        },
+        {
+            "name": "Track 7",
+            "path": null,
+            "timing": [],
+            "attack": 0.0,
+            "volume": 1.0
+        },
+        {
+            "name": "Track 8",
+            "path": null,
+            "timing": [],
+            "attack": 0.0,
+            "volume": 1.0
+        }
+    ],
+    "config": {
+        "bpm": 125,
+        "beats_per_measure": 4,
+        "measures": null,
+        "repeat": 4
+    }
+}

@@ -1,0 +1,49 @@
+{
+    "tracks": [
+        {
+            "name": "kick",
+            "path": "sounds/kick1.wav",
+            "timing": [
+                0,
+                12,
+                30,
+                36
+            ],
+            "attack": 0.0,
+            "volume": 1.0
+        },
+        {
+            "name": "snare",
+            "path": "sounds/snare.wav",
+            "timing": [
+                12,
+                18,
+                36
+            ],
+            "attack": 0.0,
+            "volume": 1.0
+        },
+        {
+            "name": "hihat",
+            "path": "sounds/hihat_closed.wav",
+            "timing": [
+                0,
+                6,
+                12,
+                18,
+                24,
+                30,
+                36,
+                42
+            ],
+            "attack": 0.0,
+            "volume": 1.0
+        }
+    ],
+    "config": {
+        "bpm": 120,
+        "beats_per_measure": 4,
+        "measures": null,
+        "repeat": 4
+    }
+}

@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cadence"
+version = "0.1.0"
+description = "Software sequencer"
+readme = "README.md"
+requires-python = ">=3.8"
+authors = [
+  {name = "Emily KL", email = "contact@emilykl.me"}
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent"
+]
+dependencies = [
+  "customtkinter",
+  "numpy",
+  "scipy",
+  "sounddevice",
+]
+
+[project.scripts]
+cadence = "cadence.cli:main"
+
+[project.optional-dependencies]
+dev = [
+  "build",
+  "ruff",
+]
+
+[tool.setuptools.packages.find]
+include = ["cadence*"]
