@@ -7,18 +7,25 @@ Cadence est un logiciel de séquençage musical minimaliste écrit en Python.
 
 ## Pour commencer
 
-1. Installer le paquet:
+1. Cloner:
+
+```bash
+$ git clone https://github.com/emilykl/cadence.git
+$ cd cadence
+```
+
+2. Installer le paquet:
 
 ```bash
 pip install -e .
 ```
 
-2. Faire jouer une séquence:
+3. Jouer une séquence:
 ```bash
 python sequences/seq1.py
 ```
 
-3. Lancer l'interface visuelle:
+4. Lancer l'interface visuelle:
 ```bash
 $ cadence go
 ```
