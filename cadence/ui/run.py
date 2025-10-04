@@ -1,12 +1,8 @@
-# =====
-# From https://github.com/astral-sh/uv/issues/7036
-from os import environ
 from pathlib import Path
-from sys import base_prefix
 
-environ["TCL_LIBRARY"] = str(Path(base_prefix) / "lib" / "tcl8.6")
-environ["TK_LIBRARY"] = str(Path(base_prefix) / "lib" / "tk8.6")
-# =====
+# Before importing customtkinter, ensure tkinter is available
+from cadence.ui.check_tkinter import check_tkinter
+check_tkinter()
 
 import customtkinter
 
