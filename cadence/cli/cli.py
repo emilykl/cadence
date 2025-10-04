@@ -1,7 +1,6 @@
 import sys
 
 from cadence.api.functions import load_project, play, play_sound_file
-from cadence.ui.run import run
 
 USAGE = """
 Usage: cadence [go|load|play] <options>
@@ -25,6 +24,8 @@ def main():
     """
     args = sys.argv[1:]
     if not args or args[0] in {"run", "launch", "lancer", "go"}:
+        # Avoid loading UI dependencies unless needed
+        from cadence.ui.run import run
         run()
     elif args[0] in {"load"}:
         if len(args) != 2:
@@ -32,6 +33,7 @@ def main():
             print_usage()
             sys.exit(1)
         file_path = args[1]
+        from cadence.ui.run import run
         run(project_path=file_path)
         pass
 
