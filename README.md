@@ -21,7 +21,7 @@ $ cd cadence
 $ pip install -e .
 ```
 
-3. Play sequence:
+3. Play a sequence:
 ```bash
 $ python sequences/seq1.py
 ```
