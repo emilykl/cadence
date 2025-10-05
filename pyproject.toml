@@ -29,6 +29,8 @@ cadence = "cadence.cli:main"
 dev = [
   "build",
   "ruff",
+  "pytest",
+  "pytest-cov",
 ]
 
 [tool.setuptools.packages.find]
