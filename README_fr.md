@@ -1,9 +1,10 @@
 # Cadence
-_[Read in English](/README.md)_
 
 ![screenshot](images/screenshot.png)
 
 Cadence est un logiciel de séquençage musical minimaliste écrit en Python.
+
+_[Read in English](/README.md)_
 
 ## Pour commencer
 
