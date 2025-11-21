@@ -33,8 +33,7 @@ def check_tkinter():
 
     try:
         import tkinter as _tkinter
-        from customtkinter import CTk
-        _ = CTk()
+        _ = _tkinter.Tcl()
     except (ModuleNotFoundError, _tkinter.TclError):
         # Sometimes tkinter paths are not set correctly in virtual environments
         # We can try to fix this by setting the path manually but it might not work
@@ -44,7 +43,9 @@ def check_tkinter():
         os.environ["TK_LIBRARY"] = str(Path(sys.base_prefix) / "lib" / "tk8.6")
         try:
             import tkinter as _tkinter
-            from customtkinter import CTk
-            _ = CTk()
+            _ = _tkinter.Tcl()
         except (ModuleNotFoundError, _tkinter.TclError):
             raise RuntimeError(TKINTER_ERROR_MSG)
+    
+    os.environ["TCL_LIBRARY"] = str(Path(sys.base_prefix) / "lib" / "tcl8.6")
+    os.environ["TK_LIBRARY"] = str(Path(sys.base_prefix) / "lib" / "tk8.6")
