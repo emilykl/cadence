@@ -47,12 +47,20 @@ def sequence(
     assert sample_rate is not None, "Sample rate could not be determined"
     n_channels = 0
 
-    # TODO: below logic is busted; it throws an error at the elif
-    # if some sounds are mono and some are stereo
-    if set([sound.ndim for sound in sounds]) == {1}:
+    ndims = set(sound.ndim for sound in sounds)
+    if ndims == {1}:
+        # All mono
         n_channels = 1
-    elif len(set([sound.shape[1] for sound in sounds])) == 1:
+    elif ndims == {2} and len(set(sound.shape[1] for sound in sounds)) == 1:
+        # All stereo with the same number of channels
         n_channels = sounds[0].shape[1]
+    elif ndims <= {1, 2}:
+        # Mixed mono and stereo — convert mono sounds to stereo by duplicating the channel
+        n_channels = max(sound.shape[1] if sound.ndim == 2 else 1 for sound in sounds)
+        sounds = tuple(
+            np.stack([sound, sound], axis=1) if sound.ndim == 1 else sound
+            for sound in sounds
+        )
     else:
         raise ValueError(
             f"Sounds have different numbers of channels: {[sound.shape for sound in sounds]}"
