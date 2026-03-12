@@ -39,6 +39,10 @@ STYLE = {
     # "track_entry_border_color": "#363636",
     # "track_entry_fill_color": "#303030",
     "track_entry_fill_color": "#242424",
+    "btn_color_enabled": "#2E7D32",       # Green — track enabled
+    "btn_color_enabled_hover": "#1B5E20",  # Dark green hover
+    "btn_color_disabled_track": "#555555", # Grey — track disabled
+    "btn_color_disabled_track_hover": "#333333",
 }
 
 # Default labels

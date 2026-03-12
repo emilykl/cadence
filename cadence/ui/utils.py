@@ -159,6 +159,7 @@ def update_track_ui_from_tracks(
 def update_tracks_from_track_ui(
     all_play_sound_buttons: list[CTkButton],
     all_name_labels: list[CTkEntry],
+    all_enable_buttons: list[CTkButton],
     tracks: list[Track],
 ):
     """
@@ -167,6 +168,7 @@ def update_tracks_from_track_ui(
     Args:
         all_play_sound_buttons (list[CTkButton]): List of play sound buttons to read from.
         all_name_labels (list[CTkEntry]): List of name labels to read from.
+        all_enable_buttons (list[CTkButton]): List of enable/disable buttons to read from.
         tracks (list[Track]): List of Track objects to update.
 
     Returns:
@@ -193,7 +195,13 @@ def update_tracks_from_track_ui(
         else:
             new_path = None
 
-        # TODO: Update attack and volume from UI if we add those controls
+        # Read enabled state from button
+        if i < len(all_enable_buttons):
+            new_enabled = all_enable_buttons[i].track_enabled
+        else:
+            new_enabled = existing_track.enabled
+
+        # TODO: Update attack from UI if we add those controls
 
         new_track = Track(
             name=new_name,
@@ -201,10 +209,42 @@ def update_tracks_from_track_ui(
             timing=existing_track.timing,
             attack=existing_track.attack,
             volume=existing_track.volume,
+            enabled=new_enabled,
         )
 
         new_tracks.append(new_track)
     return new_tracks
+
+
+def sync_enable_buttons_from_tracks(
+    all_enable_buttons: list[CTkButton],
+    tracks: list[Track],
+):
+    """
+    Sync the enable/disable button states to match the provided tracks.
+
+    Args:
+        all_enable_buttons (list[CTkButton]): List of enable/disable buttons to update.
+        tracks (list[Track]): List of Track objects to read enabled state from.
+
+    Returns: None
+    """
+    from cadence.ui.ui_constants import STYLE
+    for i, btn in enumerate(all_enable_buttons):
+        enabled = tracks[i].enabled if i < len(tracks) else True
+        btn.track_enabled = enabled
+        if enabled:
+            btn.configure(
+                fg_color=STYLE["btn_color_enabled"],
+                hover_color=STYLE["btn_color_enabled_hover"],
+                text="●",
+            )
+        else:
+            btn.configure(
+                fg_color=STYLE["btn_color_disabled_track"],
+                hover_color=STYLE["btn_color_disabled_track_hover"],
+                text="○",
+            )
 
 
 def update_config_from_config_ui(
