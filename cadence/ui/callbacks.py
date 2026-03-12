@@ -120,7 +120,8 @@ def on_choose_sound(track_index: int, play_sound_button: CTkButton):
     # instead of returning them; there's a reason I did this (because of the config)
     # but it doesn't have to be this way
     app_state.tracks = update_tracks_from_track_ui(
-        app_state.all_play_sound_buttons, app_state.all_name_labels, app_state.tracks
+        app_state.all_play_sound_buttons, app_state.all_name_labels,
+        app_state.all_volume_sliders, app_state.tracks
     )
 
     # if not app_state.tracks:

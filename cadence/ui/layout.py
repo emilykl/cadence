@@ -6,6 +6,8 @@ from customtkinter import (
     CTkFrame,
     CTkLabel,
     CTkScrollableFrame,
+    CTkSlider,
+    DoubleVar,
     StringVar,
 )
 
@@ -125,6 +127,7 @@ def add_layout(app):
     all_buttons = {}
     all_play_sound_buttons = []
     all_name_labels = []
+    all_volume_sliders = []
     # Add 1 row for each track
     for track in range(N_TRACKS):
         # Create frame for entire track row
@@ -178,6 +181,23 @@ def add_layout(app):
         )
         all_name_labels.append(label)
         label.grid(row=0, column=1, sticky="w", padx=5)
+
+        # Add volume slider
+        volume_var = DoubleVar(value=1.0)
+        volume_slider = CTkSlider(
+            controls_frame,
+            from_=0.0,
+            to=1.0,
+            width=70,
+            variable=volume_var,
+            fg_color=STYLE["btn_color_dark"],
+            progress_color=STYLE["btn_color_light"],
+            button_color=STYLE["btn_color_selected"],
+            button_hover_color=STYLE["btn_color_light_hover"],
+        )
+        volume_slider.volume_var = volume_var
+        all_volume_sliders.append(volume_slider)
+        volume_slider.grid(row=0, column=2, padx=(2, 5))
 
         # Create a frame for the buttons on the right, and add to track_frame grid
         buttons_frame = CTkFrame(track_frame, fg_color=STYLE["bkg_color"])
@@ -263,6 +283,7 @@ def add_layout(app):
     app_state.all_buttons = all_buttons
     app_state.all_play_sound_buttons = all_play_sound_buttons
     app_state.all_name_labels = all_name_labels
+    app_state.all_volume_sliders = all_volume_sliders
 
     # Add save/load buttons row
     save_load_frame = CTkFrame(main_frame, fg_color=STYLE["bkg_color"])

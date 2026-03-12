@@ -1,4 +1,4 @@
-from customtkinter import CTkButton, CTkEntry
+from customtkinter import CTkButton, CTkEntry, CTkSlider
 
 from cadence.api.constants import TIMING_UNITS_PER_BEAT
 from cadence.api.track import Track
@@ -159,6 +159,7 @@ def update_track_ui_from_tracks(
 def update_tracks_from_track_ui(
     all_play_sound_buttons: list[CTkButton],
     all_name_labels: list[CTkEntry],
+    all_volume_sliders: list[CTkSlider],
     tracks: list[Track],
 ):
     """
@@ -167,6 +168,7 @@ def update_tracks_from_track_ui(
     Args:
         all_play_sound_buttons (list[CTkButton]): List of play sound buttons to read from.
         all_name_labels (list[CTkEntry]): List of name labels to read from.
+        all_volume_sliders (list[CTkSlider]): List of volume sliders to read from.
         tracks (list[Track]): List of Track objects to update.
 
     Returns:
@@ -193,18 +195,40 @@ def update_tracks_from_track_ui(
         else:
             new_path = None
 
-        # TODO: Update attack and volume from UI if we add those controls
+        # Read volume from slider
+        if i < len(all_volume_sliders):
+            new_volume = all_volume_sliders[i].volume_var.get()
+        else:
+            new_volume = existing_track.volume
 
         new_track = Track(
             name=new_name,
             path=new_path,
             timing=existing_track.timing,
             attack=existing_track.attack,
-            volume=existing_track.volume,
+            volume=new_volume,
         )
 
         new_tracks.append(new_track)
     return new_tracks
+
+
+def sync_volume_sliders_from_tracks(
+    all_volume_sliders: list[CTkSlider],
+    tracks: list[Track],
+):
+    """
+    Sync volume slider positions to match the provided tracks.
+
+    Args:
+        all_volume_sliders (list[CTkSlider]): List of volume sliders to update.
+        tracks (list[Track]): List of Track objects to read volume from.
+
+    Returns: None
+    """
+    for i, slider in enumerate(all_volume_sliders):
+        volume = tracks[i].volume if i < len(tracks) else 1.0
+        slider.volume_var.set(volume)
 
 
 def update_config_from_config_ui(
