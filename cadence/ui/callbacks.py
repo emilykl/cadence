@@ -6,7 +6,7 @@ from customtkinter import CTkButton
 from cadence.api.functions import load_project, play_sound_file
 from cadence.ui.state import app_state
 from cadence.ui.ui_constants import STYLE
-from cadence.ui.utils import update_track_ui_from_tracks, update_tracks_from_track_ui
+from cadence.ui.utils import update_track_ui_from_tracks, update_tracks_from_track_ui, sync_enable_buttons_from_tracks
 
 
 # Function to handle button clicks
@@ -37,6 +37,31 @@ def on_button_click(button: CTkButton):
         else:
             button.configure(fg_color=STYLE["btn_color_dark"])
             button.configure(hover_color=STYLE["btn_color_dark_hover"])
+
+
+def on_enable_toggle(enable_button: CTkButton):
+    """
+    Handle enable/disable toggle button click for a track.
+
+    Args:
+        enable_button (CTkButton): The enable/disable button that was clicked.
+
+    Returns: None
+    """
+    enable_button.track_enabled = not enable_button.track_enabled
+    if enable_button.track_enabled:
+        enable_button.configure(
+            fg_color=STYLE["btn_color_enabled"],
+            hover_color=STYLE["btn_color_enabled_hover"],
+            text="●",
+        )
+    else:
+        enable_button.configure(
+            fg_color=STYLE["btn_color_disabled_track"],
+            hover_color=STYLE["btn_color_disabled_track_hover"],
+            text="○",
+        )
+    app_state.update_track_enabled()
 
 
 def on_play_sound(play_sound_button: CTkButton):
@@ -120,7 +145,8 @@ def on_choose_sound(track_index: int, play_sound_button: CTkButton):
     # instead of returning them; there's a reason I did this (because of the config)
     # but it doesn't have to be this way
     app_state.tracks = update_tracks_from_track_ui(
-        app_state.all_play_sound_buttons, app_state.all_name_labels, app_state.tracks
+        app_state.all_play_sound_buttons, app_state.all_name_labels,
+        app_state.all_enable_buttons, app_state.all_volume_sliders, app_state.tracks
     )
 
     # if not app_state.tracks:

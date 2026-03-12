@@ -29,8 +29,8 @@ def sequence(
         np.ndarray: The full audio sequence as a NumPy array
         int: The sample rate of the audio
     """
-    # Filter out tracks with no path
-    filtered_tracks = [track for track in tracks if track.path is not None]
+    # Filter out tracks with no path or that are disabled
+    filtered_tracks = [track for track in tracks if track.path is not None and track.enabled]
 
     if not filtered_tracks:
         return np.array([]), 44100  # Default sample rate

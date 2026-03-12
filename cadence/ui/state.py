@@ -3,7 +3,7 @@
 from collections import defaultdict
 from pathlib import Path
 
-from customtkinter import CTkButton, CTkEntry
+from customtkinter import CTkButton, CTkEntry, CTkSlider
 
 from cadence.api.track import Track
 from cadence.api.config import Config
@@ -14,6 +14,8 @@ from cadence.ui.utils import (
     update_config_ui_from_config,
     update_tracks_from_track_ui,
     update_track_ui_from_tracks,
+    sync_enable_buttons_from_tracks,
+    sync_volume_sliders_from_tracks,
 )
 from cadence.api.constants import TIMING_UNITS_PER_BEAT
 
@@ -31,6 +33,8 @@ class State:
         self.all_buttons: dict[tuple[int, int, int], CTkButton] = {}
         self.all_play_sound_buttons: list[CTkButton] = []
         self.all_name_labels: list[CTkEntry] = []
+        self.all_enable_buttons: list[CTkButton] = []
+        self.all_volume_sliders: list[CTkSlider] = []
         self.bpm_entry: CTkEntry = None
         self.repeat_entry: CTkEntry = None
 
@@ -50,6 +54,8 @@ class State:
         update_track_ui_from_tracks(
             self.all_play_sound_buttons, self.all_name_labels, self.tracks
         )
+        sync_enable_buttons_from_tracks(self.all_enable_buttons, self.tracks)
+        sync_volume_sliders_from_tracks(self.all_volume_sliders, self.tracks)
 
     def set_config(self, config: Config):
         """
@@ -85,17 +91,45 @@ class State:
                 existing_track = Track()
             else:
                 existing_track = self.tracks[track_index]
+
+            # Read volume from slider if available
+            if track_index < len(self.all_volume_sliders):
+                volume = self.all_volume_sliders[track_index].volume_var.get()
+            else:
+                volume = existing_track.volume
+
+            # Read enabled state from button if available
+            if track_index < len(self.all_enable_buttons):
+                enabled = self.all_enable_buttons[track_index].track_enabled
+            else:
+                enabled = existing_track.enabled
+
             new_track = Track(
                 name=existing_track.name,
                 path=existing_track.path,
                 timing=sorted(timings[track_index]),
                 attack=existing_track.attack,
-                volume=existing_track.volume,
+                volume=volume,
+                enabled=enabled,
             )
             if track_index >= len(self.tracks):
                 self.tracks.append(new_track)
             else:
                 self.tracks[track_index] = new_track
+
+    def update_track_enabled(self):
+        """
+        Updates State.tracks enabled flags from the current state of the enable buttons.
+
+        Returns: None
+        """
+        for track_index, enable_btn in enumerate(self.all_enable_buttons):
+            if track_index >= len(self.tracks):
+                break
+            existing_track = self.tracks[track_index]
+            self.tracks[track_index] = existing_track._replace(
+                enabled=enable_btn.track_enabled
+            )
 
     def stop(self):
         """
@@ -129,7 +163,8 @@ class State:
         Returns: None
         """
         self.tracks = update_tracks_from_track_ui(
-            self.all_play_sound_buttons, self.all_name_labels, self.tracks
+            self.all_play_sound_buttons, self.all_name_labels,
+            self.all_enable_buttons, self.all_volume_sliders, self.tracks
         )
         self.config = update_config_from_config_ui(
             self.bpm_entry, self.repeat_entry, self.config
@@ -147,7 +182,8 @@ class State:
         Returns: None
         """
         self.tracks = update_tracks_from_track_ui(
-            self.all_play_sound_buttons, self.all_name_labels, self.tracks
+            self.all_play_sound_buttons, self.all_name_labels,
+            self.all_enable_buttons, self.all_volume_sliders, self.tracks
         )
         self.config = update_config_from_config_ui(
             self.bpm_entry, self.repeat_entry, self.config

@@ -11,6 +11,7 @@ class Track(NamedTuple):
         timing (list[int]): List of timings in 1/12ths of a beat. Defaults to [].
         attack (float): Attack time in seconds. Defaults to 0.0.
         volume (float): Relative volume (0.0 to 1.0). Defaults to 1.0.
+        enabled (bool): Whether the track is audible during playback. Defaults to True.
     """
 
     name: str = None
@@ -18,3 +19,4 @@ class Track(NamedTuple):
     timing: list[int] = []
     attack: float = 0.0
     volume: float = 1.0
+    enabled: bool = True
